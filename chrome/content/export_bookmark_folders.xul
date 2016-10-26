@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!-- Copyright 2014 FSharpN00b.
+This file is part of Session Exporter.
+
+Session Exporter is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Session Exporter is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Session Exporter.  If not, see <http://www.gnu.org/licenses/>. -->
+<?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
+<!-- See:
+https://developer.mozilla.org/en-US/Add-ons/Code_snippets/Dialogs_and_Prompts
+https://developer.mozilla.org/en-US/Add-ons/Overlay_Extensions/Firefox_addons_developer_guide/Introduction_to_XUL%E2%80%94How_to_build_a_more_intuitive_UI
+-->
+<dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	title="Select Bookmark Folders"
+	buttons="accept,cancel"
+	onload="init ();"
+	ondialogaccept="return accept ();">
+	<script type="application/x-javascript" src="export_bookmark_folders.js" />
+	<listbox id="export_bookmark_folders" seltype="multiple" width="400" />
+</dialog>

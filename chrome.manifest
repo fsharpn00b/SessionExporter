@@ -1,0 +1,6 @@
+content     sessionexporter    chrome/content/
+overlay chrome://browser/content/browser.xul chrome://sessionexporter/content/overlay.xul
+
+skin sessionexporter classic/1.0 skin/classic/
+style chrome://browser/content/browser.xul chrome://sessionexporter/skin/overlay.css
+style chrome://global/content/customizeToolbar.xul chrome://sessionexporter/skin/overlay.css

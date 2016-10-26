@@ -1,0 +1,7 @@
+#SessionExporter_button {
+	list-style-image: url(chrome://sessionexporter/skin/icon.png);
+}
+
+toolbar[iconsize="small"] #SessionExporter_button {
+	list-style-image: url(chrome://sessionexporter/skin/icon_small.png);
+}

@@ -1,0 +1,128 @@
+<?xml version="1.0"?>
+<!-- Copyright 2014 FSharpN00b.
+This file is part of Session Exporter.
+
+Session Exporter is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Session Exporter is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Session Exporter.  If not, see <http://www.gnu.org/licenses/>. -->
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<!-- Validation results included the following.
+<prefwindow> elements must have IDs.
+Warning: <prefwindow> elements without id attributes cause errors to be reported in the error console and prevent persistence of certain properties of the dialog. -->
+<prefwindow
+    id="SessionExporter_prefWindow"
+    title="Session Exporter Preferences"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+    onload="handle_skip_duplicate_tabs_changed ();"
+    >
+	<script type="application/x-javascript" src="preferences.js" />
+	<prefpane>
+		<preferences>
+			<preference id="SessionExporter_prefs_outputFolder"
+                  name="extensions.{943b5589-7808-4a70-acdc-7b6ee21e7cce}.outputFolder" type="string" />
+      <preference id="SessionExporter_prefs_inputFolder"
+                  name="extensions.{943b5589-7808-4a70-acdc-7b6ee21e7cce}.inputFolder" type="string" />
+      <preference id="SessionExporter_prefs_session_file_order"
+			        		name="extensions.{943b5589-7808-4a70-acdc-7b6ee21e7cce}.session_file_order" type="int" />
+		  <preference id="SessionExporter_prefs_combine_tab_groups_same_id"
+			        		name="extensions.{943b5589-7808-4a70-acdc-7b6ee21e7cce}.combine_tab_groups_same_id" type="int" />
+      <preference id="SessionExporter_prefs_combine_tab_groups_same_title"
+			        		name="extensions.{943b5589-7808-4a70-acdc-7b6ee21e7cce}.combine_tab_groups_same_title" type="int" />
+      <preference id="SessionExporter_prefs_combine_tab_groups_same_id_and_title"
+			        		name="extensions.{943b5589-7808-4a70-acdc-7b6ee21e7cce}.combine_tab_groups_same_id_and_title" type="int" />
+      <preference id="SessionExporter_prefs_skip_duplicate_tabs_single_session"
+                  name="extensions.{943b5589-7808-4a70-acdc-7b6ee21e7cce}.skip_duplicate_tabs_single_session" type="bool" />
+      <preference id="SessionExporter_prefs_skip_duplicate_tabs_multiple_sessions"
+                  name="extensions.{943b5589-7808-4a70-acdc-7b6ee21e7cce}.skip_duplicate_tabs_multiple_sessions" type="bool" />
+  		<preference id="SessionExporter_prefs_skip_duplicate_tabs_across_tab_groups"
+	        				name="extensions.{943b5589-7808-4a70-acdc-7b6ee21e7cce}.skip_duplicate_tabs_across_tab_groups" type="bool" />
+      <preference id="SessionExporter_prefs_log_duplicate_tabs"
+                  name="extensions.{943b5589-7808-4a70-acdc-7b6ee21e7cce}.log_duplicate_tabs" type="bool" />
+      <preference id="SessionExporter_prefs_file_duplicate_tabs"
+                  name="extensions.{943b5589-7808-4a70-acdc-7b6ee21e7cce}.file_duplicate_tabs" type="bool" />
+      <preference id="SessionExporter_prefs_bookmark_duplicate_tabs"
+                  name="extensions.{943b5589-7808-4a70-acdc-7b6ee21e7cce}.bookmark_duplicate_tabs" type="bool" />
+      <preference id="SessionExporter_prefs_backup_bookmarks_json"
+                  name="extensions.{943b5589-7808-4a70-acdc-7b6ee21e7cce}.backup_bookmarks_json" type="bool" />
+		</preferences>
+
+    <groupbox>
+      <caption label="Input and Output Folders" />
+      <hbox align="right">
+        <label value="Input Folder: "/>
+        <textbox size="100" preference="SessionExporter_prefs_inputFolder" readonly="true" />
+        <button label="Browse..." oncommand="select_folder ('Select Input Folder', 'SessionExporter_prefs_inputFolder') ;"/>
+      </hbox>
+      <hbox align="right">
+        <label value="Output Folder: "/>
+        <textbox size="100" preference="SessionExporter_prefs_outputFolder" readonly="true" />
+        <button label="Browse..." oncommand="select_folder ('Select Output Folder', 'SessionExporter_prefs_outputFolder') ;"/>
+      </hbox>
+    </groupbox>
+    <groupbox>
+      <caption label="Duplicate Tabs" />
+      <checkbox preference="SessionExporter_prefs_skip_duplicate_tabs_single_session"
+                id="SessionExporter_skip_duplicate_tabs_single_session"
+                label="Skip duplicate tabs when exporting a single session"
+                oncommand="handle_skip_duplicate_tabs_changed ();" />
+      <checkbox preference="SessionExporter_prefs_skip_duplicate_tabs_multiple_sessions"
+                id="SessionExporter_skip_duplicate_tabs_multiple_sessions"
+                label="Skip duplicate tabs when exporting multiple sessions"
+                oncommand="handle_skip_duplicate_tabs_changed ();" />
+	    <checkbox preference="SessionExporter_prefs_skip_duplicate_tabs_across_tab_groups"
+				        id="SessionExporter_skip_duplicate_tabs_across_tab_groups"
+				        label="Skip duplicate tabs across tab groups"
+				        oncommand="handle_skip_duplicate_tabs_changed ();" />
+      <checkbox preference="SessionExporter_prefs_log_duplicate_tabs"
+                id="SessionExporter_log_duplicate_tabs"
+                label="Log skipped duplicate tabs to console" />
+      <checkbox preference="SessionExporter_prefs_file_duplicate_tabs"
+                id="SessionExporter_file_duplicate_tabs"
+                label="When exporting session to file, include skipped duplicate tabs in a separate section" />
+      <checkbox preference="SessionExporter_prefs_bookmark_duplicate_tabs"
+                id="SessionExporter_bookmark_duplicate_tabs"
+                label="When saving session to bookmarks, include skipped duplicate tabs in a separate folder" />
+    </groupbox>
+    <groupbox>
+      <caption label="Duplicate Tab Groups" />
+      <label value="When two tab groups have the same ID but different titles:" />
+      <radiogroup preference="SessionExporter_prefs_combine_tab_groups_same_id" orient="vertical">
+        <radio value="0" label="Do not merge the tab groups" />
+        <radio value="1" label="Merge the tab groups" />
+      </radiogroup>
+      <label value="When two tab groups have the same title but different IDs:" />
+      <radiogroup preference="SessionExporter_prefs_combine_tab_groups_same_title" orient="vertical">
+        <radio value="0" label="Do not merge the tab groups" />
+        <radio value="1" label="Merge the tab groups" />
+      </radiogroup>
+      <label value="When two tab groups have the same ID and title:" />
+      <radiogroup preference="SessionExporter_prefs_combine_tab_groups_same_id_and_title" orient="vertical">
+        <radio value="1" label="Do not merge the tab groups" />
+        <radio value="0" label="Merge the tab groups" />
+      </radiogroup>
+    </groupbox>
+    <groupbox>
+      <caption label="Multiple Session Export" />
+      <label value="Read multiple session files in the following order:"/>
+      <radiogroup preference="SessionExporter_prefs_session_file_order" orient="vertical">
+        <radio value="0" label="Oldest first" />
+        <radio value="1" label="Newest first" />
+      </radiogroup>
+    </groupbox>
+    <groupbox>
+      <caption label="Backup" />
+      <checkbox preference="SessionExporter_prefs_backup_bookmarks_json"
+                label="Back up bookmarks in JSON format when Firefox shuts down" />
+    </groupbox>
+	</prefpane>
+
+</prefwindow>

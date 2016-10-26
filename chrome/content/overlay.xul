@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<!-- Copyright 2014 FSharpN00b.
+This file is part of Session Exporter.
+
+Session Exporter is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Session Exporter is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Session Exporter.  If not, see <http://www.gnu.org/licenses/>. -->
+
+<!-- See:
+https://developer.mozilla.org/en-US/docs/Mozilla/Tech/XUL/Toolbars/Custom_toolbar_button
+
+We originally based the overlay on:
+https://developer.mozilla.org/en-US/Add-ons/Overlay_Extensions/Firefox_addons_developer_guide/Let%27s_build_a_Firefox_extension
+However, that might be out of date. Based on it, we specified the toolbar button as follows:
+<toolbarbutton id="SessionExporter_button" label="Session Exporter" class="toolbarbutton-1" command="export_sessions ();" />
+That gave us two problems.
+1. The icon did not display correctly.
+2. Clicking the button did not work.
+The first might have been caused by the different class value, and the second might have been caused by using "command" instead of "oncommand". Both of these problems were fixed solely by changes to this XUL file.
+Per:
+https://developer.mozilla.org/en-US/docs/Mozilla/Tech/XUL/toolbarbutton
+command is used to refer to a command element, whereas oncommand is used to execute javascript directly.
+-->
+<!-- Mozilla previously rejected this add on for the following reason.
+"Your add-on creates DOM nodes with the following non-namespaced IDs, which could cause compatibility problems with other add-ons. Please consistently prefix your DOM IDs with a distinct string which is unique to and indicative of your add-on."
+
+As far as we can tell, adding a "namespace" to an ID simply means adding a prefix to the value. The only relevant source we have found is the following.
+https://bugzilla.mozilla.org/show_bug.cgi?id=701890
+"The requirement is that overlay ids should have a prefix that makes them unique, to reduce the likeliness of name collision with other extensions or Firefox code. There's no straight-forward way to validate this.
+...
+We don't enforce any specific namespacing method, but what is normally recommended as a best practice is to prefix the name with something derived from your add-on name. If my add-on is called Fire.fm, all my globals have a "Firefm" prefix. The chance of something else conflicting with those ids is miniscule."
+-->
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	<script type="application/javascript" src="chrome://sessionexporter/content/main.js"/>
+	<toolbarpalette id="BrowserToolbarPalette">
+<!-- See:
+https://developer.mozilla.org/en-US/docs/Mozilla/Tech/XUL/PopupGuide/OpenClose
+https://developer.mozilla.org/en-US/docs/Mozilla/Tech/XUL/Method/openPopup
+https://developer.mozilla.org/en-US/docs/Mozilla/Tech/XUL/PopupGuide/Positioning
+
+We could also use:
+type="menu-button"
+and no oncommand attribute, but that makes the button wider by adding the down arrow symbol, which we don't like.
+
+It seems document.getElementById can only find either (1) the containing element (in this case, SessionExporter_button) or a subelement. For example, if I try to find an element outside SessionExporter_button, getElementById returns null. However, that might be because the element was not rendered.
+-->
+		<toolbarbutton
+			id="SessionExporter_button"
+			class="toolbarbutton-1 chromeclass-toolbar-additional custombutton"
+			oncommand="(document.getElementById('SessionExporter_menu').openPopup(this, 'bottomleft topleft'));"
+			label="Session Exporter"
+			tooltiptext="Session Exporter"
+		>
+			<menupopup id="SessionExporter_menu">
+<!--
+        <menuitem label="Test" oncommand="SessionExporter.Main.test ();"/>
+        <menuseparator />
+-->
+				<menuitem label="Export Session File(s) to HTML File" oncommand="SessionExporter.Main.export_sessions (false);"/>
+				<menuitem label="Export Current Session to HTML File" oncommand="SessionExporter.Main.export_current_session (false);"/>
+        <menuseparator />
+        <menuitem label="Export Session File(s) to HTML File (include tab history)" oncommand="SessionExporter.Main.export_sessions (true);"/>
+        <menuitem label="Export Current Session to HTML File (include tab history)" oncommand="SessionExporter.Main.export_current_session (true);"/>
+        <menuseparator />
+				<menuitem label="Save Session File(s) to Bookmarks" oncommand="SessionExporter.Main.bookmark_sessions ();"/>
+				<menuitem label="Save Current Session to Bookmarks" oncommand="SessionExporter.Main.bookmark_current_session ();"/>
+        <menuseparator />
+        <menuitem label="Export Bookmark Folders to HTML Files (one file per folder)" oncommand="SessionExporter.Main.export_bookmark_folders (false);"/>
+        <menuitem label="Export All Bookmark Folders to HTML Files (one file per folder)" oncommand="SessionExporter.Main.export_bookmark_folders (true);"/>
+        <menuseparator />
+        <menuitem label="Export Bookmark Folders to HTML File (one file for all folders)" oncommand="SessionExporter.Main.export_bookmark_folders_combined (false);"/>
+        <menuitem label="Export All Bookmark Folders to HTML File (one file for all folders)" oncommand="SessionExporter.Main.export_bookmark_folders_combined (true);"/>
+        <menuseparator />
+        <menuitem label="Merge Bookmark Folders" oncommand="SessionExporter.Main.merge_bookmark_folders (false);"/>
+        <menuitem label="Merge All Bookmark Folders" oncommand="SessionExporter.Main.merge_bookmark_folders (true);"/>
+        <menuseparator />
+<!--See:
+https://developer.mozilla.org/en-US/docs/Mozilla/Tech/XUL/prefwindow
+https://developer.mozilla.org/en-US/docs/Web/API/Window.openDialog
+https://developer.mozilla.org/en-US/docs/Web/API/window.open
+-->
+        <menuitem label="Preferences" oncommand="openDialog (SessionExporter.Consts.content_folder + 'preferences.xul', '', 'centerscreen, chrome, dialog, modal=yes', null).focus();"/>
+			</menupopup>
+		</toolbarbutton>
+	</toolbarpalette>
+</overlay>
