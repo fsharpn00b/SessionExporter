@@ -223,15 +223,16 @@ function session_to_bookmarks_helper (session, new_bookmark_folder_name, save_du
 
 /* Before we used runInBatchMode, this function was slow. We considered moving it to a worker thread, but it needs the bookmarks and IO services and we didn't know how to access them in a worker thread. In any case, using runInBatchMode makes the function run much faster. */
 /* See:
-https://developer.mozilla.org/en-US/docs/Mozilla/Tech/XPCOM/Reference/Interface/nsINavBookmarksService
+https://developer.mozilla.org/en-US/docs/Mozilla/Tech/XPCOM/Reference/Interface/nsINavBookmarksService#runInBatchMode%28%29
+https://developer.mozilla.org/en-US/docs/Mozilla/Tech/XPCOM/Reference/Interface/nsINavHistoryService#runInBatchMode%28%29
 https://developer.mozilla.org/en-US/docs/Mozilla/Tech/XPCOM/Reference/Interface/nsINavHistoryBatchCallback
 */
 /* Convert the tabs and tab groups in session (1) to bookmarks in a new bookmark folder named (2). (3) True to bookmark duplicate tabs. Return unit. */
 function session_to_bookmarks (session, new_bookmark_folder_name, save_duplicate_tabs) {
-/* runInBatchMode is supposed to pass its second parameter to runBatched. However, the following code does not work for some reason. session_to_bookmarks_helper fails because data.session is undefined. */
+/* runInBatchMode is supposed to pass its second parameter to runBatched. However, the following code does not work for some reason. session_to_bookmarks_helper fails because the data parameter value is undefined. */
 /*
 	var callback = { runBatched : function (data) { session_to_bookmarks_helper (data); } };
-	Bookmarks.runInBatchMode (callback, { session : session, new_bookmark_folder_name : new_bookmark_folder_name });
+	Bookmarks.runInBatchMode (callback, { session : session, new_bookmark_folder_name : new_bookmark_folder_name, save_duplicate_tabs : save_duplicate_tabs });
 */
 /* Therefore, we pass null to runInBatchMode, ignore the runBatched parameter, and close runBatched over the parameters we want to pass to session_to_bookmarks_helper. */
 	var callback = { runBatched : function (_) {
