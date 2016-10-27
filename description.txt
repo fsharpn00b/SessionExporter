@@ -1,0 +1,335 @@
+Session Exporter lets you export your Firefox sessions to HTML files or save them to your bookmarks.
+
+Version notes have been moved to the end of this description.
+
+NOTE: Be careful when using this add on immediately after starting Firefox. There is currently a bug in Firefox that can interfere with the use of Promises, on which this add on depends. See:
+https://bugzilla.mozilla.org/show_bug.cgi?id=1105739
+
+If you have just started Firefox, to ensure that this add on functions correctly, open the Settings menu and select Developer > Browser Console. In the Browser Console, look for the following message.
+
+"A promise chain failed to handle a rejection. Did you forget to '.catch', or did you forget to 'return'?
+See https://developer.mozilla.org/Mozilla/JavaScript_code_modules/Promise.jsm/Promise
+Date: (current date and time)
+Full Message: loop is not enabled"
+
+Once that message has appeared, this add on should function correctly.
+
+Session Exporter offers the following features.
+
+*
+
+1. Export Session File(s) to HTML File.
+
+1a. Select one or more session files, then select the name of the HTML file where you want Session Exporter to export the session.
+
+1b. If you selected a single session file, Session Exporter reads the session in the session file and exports it to the HTML file. If you have tab groups, Session Exporter groups your tabs accordingly.
+
+1c. If you selected multiple session files, Session Exporter reads the sessions from all of the session files, combines them into a single session, and exports it to the HTML file.
+
+- Note if the session files come from different sources (for example, different Firefox profiles or installations), they might contain tab groups with conflicting tab group IDs and titles. Session Exporter resolves these conflicts based on the "Duplicate Tab Groups" preferences. For more information, see the Preferences section below.
+
+1d. Session Exporter shows an alert that tells you how many tabs and tab groups it exported. If you have set the appropriate preference to skip duplicate tabs, the alert also tells you how many duplicate tabs were found in the session(s). For more information about duplicate tabs, see the Preferences section below.
+
+*
+
+2. Export Current Session to HTML File.
+
+2a. Select the name of the HTML file where you want Session Exporter to export the session.
+
+2b. Session Exporter exports the current session to the HTML file. If you have tab groups, Session Exporter groups your tabs accordingly.
+
+2c. Session Exporter shows an alert that tells you how many tabs and tab groups it exported. If you have set the preference to skip duplicate tabs when exporting a single session, the alert also tells you how many duplicate tabs were found in the session. For more information about duplicate tabs, see the Preferences section below.
+
+*
+
+3. Export Session File(s) to HTML File (include tab history).
+
+3a. This is the same as Export Session File(s) to HTML File, except it also exports the history of each tab as well as the tab's current URL and title.
+
+- Note if you select multiple session files that come from different sources (for example, different Firefox profiles or installations), they might contain tab groups with conflicting tab group IDs and titles. Session Exporter resolves these conflicts based on the "Duplicate Tab Groups" preferences. For more information, see the Preferences section below.
+
+*
+
+4. Export Current Session to HTML File (include tab history).
+
+4a. This is the same as Export Current Session to HTML File, except it also exports the history of each tab as well as the tab's current URL and title.
+
+*
+
+5. Save Session File(s) to Bookmarks.
+
+5a. Select one or more session files, then enter the name of the new bookmark folder where you want Session Exporter to save the new bookmarks.
+
+5b. If you selected a single session file, Session Exporter reads the session in the session file and saves it to the new bookmark folder. If the session contains tab groups, Session Exporter creates a subfolder for each tab group, where it saves the bookmarks for tabs in that tab group.
+
+5c. If you selected multiple session files, Session Exporter reads the sessions from all of the session files, combines them into a single session, and saves that to the new bookmark folder.
+
+- Note if the session files come from different sources (for example, different Firefox profiles or installations), they might contain tab groups with conflicting tab group IDs and titles. Session Exporter resolves these conflicts based on the "Duplicate Tab Groups" preferences. For more information, see the Preferences section below.
+
+5d. Session Exporter shows an alert that tells you how many tabs and tab groups it saved. If you have set the appropriate preference to skip duplicate tabs, the alert also tells you how many duplicate tabs were found in the session(s). For more information about duplicate tabs, see the Preferences section below.
+
+*
+
+6. Save Current Session to Bookmarks.
+
+6a. Enter the name of the new bookmark folder where you want Session Exporter to save the new bookmarks.
+
+6b. Session Exporter saves the current session to the new bookmark folder. If the session contains tab groups, Session Exporter creates a subfolder for each tab group, where it saves the bookmarks for tabs in that tab group.
+
+6c. Session Exporter shows an alert that tells you how many tabs and tab groups it saved. If you have set the preference to skip duplicate tabs when exporting a single session, the alert also tells you how many duplicate tabs were found in the session. For more information about duplicate tabs, see the Preferences section below.
+
+*
+
+There is no option to include the tab history when saving session file(s) or the current session to bookmarks. This is because it might require the creation of a very large number of bookmarks, which might cause Firefox to become unresponsive.
+
+*
+
+7. Export Bookmark Folders to HTML Files (one file per folder).
+
+7a. Select one or more of the bookmark folders in the dialog.
+
+7b. For each bookmark folder, enter the name of the HTML file where you want Session Exporter to export the bookmark folder. The default file name is the same as the bookmark folder name.
+
+7c. Session Exporter converts each bookmark folder to a session. Each bookmark folder becomes a tab group, and each bookmark becomes a tab. Session Exporter then exports each session to an HTML file.
+
+7d. For each bookmark folder, Session Exporter shows an alert that tells you how many tabs and tab groups it exported. If you have set the preference to skip duplicate tabs when exporting a single session, the alert also tells you how many duplicate tabs were found in the session. For more information about duplicate tabs, see the Preferences section below.
+
+*
+
+8. Export All Bookmark Folders to HTML Files (one file per folder).
+
+8a. For each bookmark folder, enter the name of the HTML file where you want Session Exporter to export the bookmark folder. The default file name is the same as the bookmark folder name.
+
+8b. Session Exporter converts each bookmark folder to a session. Each bookmark folder becomes a tab group, and each bookmark becomes a tab. Session Exporter then exports each session to an HTML file.
+
+8c. For each bookmark folder, Session Exporter shows an alert that tells you how many tabs and tab groups it exported. If you have set the preference to skip duplicate tabs when exporting a single session, the alert also tells you how many duplicate tabs were found in the session. For more information about duplicate tabs, see the Preferences section below.
+
+*
+
+9. Export Bookmark Folders to HTML File (one file for all folders).
+
+9a. Select one or more of the bookmark folders in the dialog.
+
+9b. Enter the name of the HTML file where you want Session Exporter to export the bookmark folders. The default file name is the combination of the bookmark folder names.
+
+9c. Session Exporter converts each bookmark folder to a session. Each bookmark folder becomes a tab group, and each bookmark becomes a tab. Session Exporter then combines the sessions into a single session and exports that to the HTML file.
+
+- Note if any of the bookmark folders have conflicting names, Session Exporter resolves these conflicts based on the "When two tab groups have the same title but different IDs" preference. Tab groups created from bookmark folders never have conflicting IDs. For more information, see the Preferences section below.
+
+9d. Session Exporter shows an alert that tells you how many tabs and tab groups it exported. If you have set the appropriate preference to skip duplicate tabs, the alert also tells you how many duplicate tabs were found in the session(s). For more information about duplicate tabs, see the Preferences section below.
+
+*
+
+10. Export All Bookmark Folders to HTML File (one file for all folders).
+
+10a. Enter the name of the HTML file where you want Session Exporter to export the bookmark folders. The default file name is the combination of the bookmark folder names.
+
+10b. Session Exporter converts each bookmark folder to a session. Each bookmark folder becomes a tab group, and each bookmark becomes a tab. Session Exporter then combines the sessions into a single session and exports that to the HTML file.
+
+- Note if any of the bookmark folders have conflicting names, Session Exporter resolves these conflicts based on the "When two tab groups have the same title but different IDs" preference. Tab groups created from bookmark folders never have conflicting IDs. For more information, see the Preferences section below.
+
+10c. Session Exporter shows an alert that tells you how many tabs and tab groups it exported. If you have set the appropriate preference to skip duplicate tabs, the alert also tells you how many duplicate tabs were found in the session(s). For more information about duplicate tabs, see the Preferences section below.
+
+*
+
+11. Merge Bookmark Folders.
+
+11a. Select one or more of the bookmark folders in the dialog.
+
+11b. Enter the name of the new bookmark folder where you want Session Exporter to save the merged bookmarks.
+
+11c. Session Exporter makes a copy of the bookmark folders and their bookmarks, combines them, and saves them to the new bookmark folder.
+
+- Note if any of the bookmark folders have conflicting names, Session Exporter resolves these conflicts based on the "When two tab groups have the same title but different IDs" preference. Tab groups created from bookmark folders never have conflicting IDs. For more information, see the Preferences section below.
+
+11d. Session Exporter shows an alert that tells you how many tabs and tab groups it saved. If you have set the appropriate preference to skip duplicate tabs, the alert also tells you how many duplicate tabs were found in the session(s). For more information about duplicate tabs, see the Preferences section below.
+
+*
+
+12. Merge All Bookmark Folders.
+
+12a. Enter the name of the new bookmark folder where you want Session Exporter to save the merged bookmarks.
+
+12b. Session Exporter makes a copy of the bookmark folders and their bookmarks, combines them, and saves them to the new bookmark folder.
+
+- Note if any of the bookmark folders have conflicting names, Session Exporter resolves these conflicts based on the "When two tab groups have the same title but different IDs" preference. Tab groups created from bookmark folders never have conflicting IDs. For more information, see the Preferences section below.
+
+12c. Session Exporter shows an alert that tells you how many tabs and tab groups it saved. If you have set the appropriate preference to skip duplicate tabs, the alert also tells you how many duplicate tabs were found in the session(s). For more information about duplicate tabs, see the Preferences section below.
+
+*
+
+Preferences: Input and Output Folders
+
+Input Folder: When you select session files to export, the file dialog defaults to this folder.
+- When you first use Session Exporter, it locates your Firefox session folder automatically and sets this preference to that folder. If you are using the Session Manager add-on and have set a custom folder for session storage, Session Exporter sets this preference to that folder instead.
+- The Input Folder textbox is read-only. This is to prevent a non-valid folder from being entered. Please use the Browse button to select the input folder.
+
+Output Folder: When you select the name of an HTML file where you want to export a session, the file dialog defaults to this folder.
+- When you export a session to an HTML file, Session Exporter sets this preference to the folder that contains the HTML file.
+- The Output Folder textbox is read-only. This is to prevent a non-valid folder from being entered. Please use the Browse button to select the output folder.
+
+*
+
+Preferences: Duplicate Tabs
+
+Skip duplicate tabs when exporting a single session: When you export a single session, if the session contains duplicate tabs, Session Exporter skips them.
+- Duplicate tabs have the same URL and tab group ID. If two tabs have the same URL but belong to different tab groups, they are not considered duplicates. You can change this behavior by selecting "Skip duplicate tabs across tab groups". See the description for that preference.
+
+Skip duplicate tabs when exporting multiple sessions: When you export multiple sessions, if the combined session contains duplicate tabs, Session Exporter skips them.
+- Duplicate tabs have the same URL and tab group ID. If two tabs have the same URL but belong to different tab groups, they are not considered duplicates. You can change this behavior by selecting "Skip duplicate tabs across tab groups". See the description for that preference.
+
+Skip duplicate tabs across tab groups: By default, Session Exporter looks for duplicate tabs with the same URL and tab group ID. If you select this preference, Session Exporter looks for duplicate tabs with the same URL only. In other words, it looks for duplicate tabs across all tab groups.
+- If neither "Skip duplicate tabs when exporting a single session" nor "Skip duplicate tabs when exporting multiple sessions" is selected, this preference is disabled in the Preferences dialog, because it has no effect.
+
+Log skipped duplicate tabs to console: If Session Exporter finds duplicate tabs when exporting one or more sessions, it logs information about them to the Browser Console.
+- If neither "Skip duplicate tabs when exporting a single session" nor "Skip duplicate tabs when exporting multiple sessions" is selected, this preference is disabled in the Preferences dialog, because it has no effect.
+
+When exporting session to file, include skipped duplicate tabs in a separate section: If Session Exporter finds duplicate tabs when exporting one or more sessions to an HTML file, it includes them in a separate section of the file.
+- If neither "Skip duplicate tabs when exporting a single session" nor "Skip duplicate tabs when exporting multiple sessions" is selected, this preference is disabled in the Preferences dialog, because it has no effect.
+
+When saving session to bookmarks, include skipped duplicate tabs in a separate folder: If Session Exporter finds duplicate tabs when saving one or more sessions to bookmarks, it creates a subfolder to contain the duplicate tabs.
+- If neither "Skip duplicate tabs when exporting a single session" nor "Skip duplicate tabs when exporting multiple sessions" is selected, this preference is disabled in the Preferences dialog, because it has no effect.
+
+*
+
+Preferences: Duplicate Tab Groups: When you export multiple sessions that come from different sources (for example, different Firefox profiles or installations), they might contain tab groups with conflicting tab group IDs and titles. Session Exporter uses the following preferences to decide how to resolve these conflicts.
+
+When two tab groups have the same ID but different titles:
+
+- Do not merge the tab groups: Session Exporter resolves the conflict without combining the tabs in the tab groups.
+
+- Merge the tab groups: Session Exporter combines the tabs from the two tab groups. This is appropriate if you are exporting multiple snapshots of the same session from different dates, and you want to combine the tab groups, but you renamed them at some point.
+
+When two tab groups have the same title but different IDs:
+
+- Do not merge the tab groups: Session Exporter resolves the conflict without combining the tabs in the tab groups. This is appropriate if you are exporting multiple session files from different sources, and they contain tab groups with similar names but different contents.
+
+- Merge the tab groups: Session Exporter combines the tabs from the two tab groups. This is appropriate if you are exporting multiple session files from different sources, but they contain tab groups with similar names and contents.
+
+- Note it is not recommended to set both "When two tab groups have the same ID but different titles" and "When two tab groups have the same title but different IDs" to "Merge the tab groups". If you do, and you export multiple session files that contain a tab group that has the same ID as a second tab group and the same title as a third tab group, Session Exporter merges the two tab groups with the same title, rather than the two with the same ID. This is because merging tab groups by title is the more common scenario.
+
+- Note when Session Exporter merges two tab groups with the same ID, it also combines the titles of the two tab groups, to help you see what tab groups were combined. However, this does not interfere with merging tab groups by title. For example, if you have set Session Exporter to merge tab groups by ID, and it merges two tab groups with names "A" and "B", the resulting tab group title is "A_B". If it encounters another tab group titled "A", and you have also set it to merge tab groups by title, it merges the tab group with the previous tab group that was previously titled "A". It does this by maintaining a copy of the previous title, which it uses to detect future tab group title matches.
+
+When two tab groups have the same ID and title:
+
+- Merge the tab groups: Session Exporter combines the tabs from the two tab groups. This is appropriate if you are exporting multiple snapshots of the same session from different dates, and you want to combine the tab groups.
+
+- Do not merge the tab groups: Session Exporter resolves the conflict without combining the tabs in the tab groups. This is appropriate if you are exporting multiple snapshots of the same session from different dates, but you want to preserve the different versions of the same tab groups from the different sessions.
+
+*
+
+Preferences: Multiple Session Export:
+
+Read multiple session files in the following order: This determines the order in which Session Exporter reads multiple session files. For example, suppose you export two session files that contain a tab that has the same URL, and you select the "Skip duplicate tabs across tab groups" setting. The earlier session file contains the tab in a tab group titled "A", and the later session file contains the tab in a tab group titled "B". If Session Exporter reads the earlier session file first, it removes the tab as a duplicate from tab group B. If it reads the later session file first, it removes the tab as a duplicate from tab group A.
+
+- Oldest first: Read session files with the earliest last modified date first.
+
+- Newest first: Read session files with the latest last modified date first. This is appropriate if, for example, you are exporting multiple snapshots of the same session from different dates, but in the later session files, you have organized the tabs into tab groups, and you want to skip duplicate tabs across tab groups. In this case, you want to read the later session file first, so that any duplicate tabs are removed from the earlier session files where they are not sorted into tab groups.
+
+*
+
+Preferences: Backup:
+
+Back up bookmarks in JSON format when Firefox shuts down: Session Exporter exports your bookmarks to a JSON file when Firefox shuts down. The JSON file is written to the same folder specified in the Output Folder preference. The JSON file is named bookmarks_<date>_<time>.json.
+
+*
+
+I have found that when you open a session that contains tab groups, and then open new tabs in an existing tab group, Firefox might not immediately assign the new tabs to the tab group in the session data. As a result, if you use Session Exporter to export the current session, Session Exporter groups the new tabs in the "None" tab group.
+
+This also happens if you save the session to a file and then use Session Exporter to export the session file.
+
+However, once you save the session file and then load it again, the tabs are assigned to the correct tab groups. At that point, if you use Session Exporter to export the current session, it groups the tabs in the correct tab groups.
+
+*
+
+Session Exporter uses Promise.jsm, so it requires Firefox 25 or higher. If you are not using Firefox 29 or higher, you might also need to enable the flag dom.promise.enabled in about:config. For more information, see the section "Browser Compatibility" in:
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
+
+If you have any problems or questions, please let me know at fsharpn00b@hotmail.com. If you can provide the session file, that will help me solve the problem faster. On the other hand, if Session Explorer helps you, please take a moment to review it. Even just one or two words are appreciated, as every review helps get the word out to more potential users.
+
+You might also like my other add on, <a href="https://addons.mozilla.org/en-US/firefox/addon/bookmark-sorter/">Bookmark Sorter</a>.
+
+All contributions go to Forget Me Not Animal Shelter. Thank you very much for your contributions.
+
+Thank you for downloading. Thank you also to the add-on reviewers and the authors of the following:
+<a href="https://developer.mozilla.org/">Mozilla Developer Network documentation</a>
+<a href="https://addons.mozilla.org/en-US/firefox/addon/session-manager/">Session Manager add-on</a>
+<a href="https://addons.mozilla.org/en-US/firefox/addon/tab-groups-helper/">Tab Groups Helper add-on</a>
+<a href="http://underscorejs.org/">Underscore.js</a>
+<a href="http://xregexp.com/">XRegExp</a>
+<a href="https://github.com/alexei/sprintf.js">Sprintf.js</a>
+My apologies to anyone I have overlooked.
+
+*
+
+New in version 0.17:
+
+Fixed a bug in exporting the current session.
+Fixed a bug in saving a session to bookmarks.
+
+*
+
+New in version 0.16:
+
+Fixed a bug that caused Session Exporter to fail silently when it was expected to show an error message.
+
+*
+
+New in version 0.15:
+
+Session Exporter can now back up your bookmarks to a JSON file when you close Firefox. To enable this, open the Preferences window and check the checkbox labeled "Back up bookmarks in JSON format when Firefox shuts down". The JSON file is written to the same output folder specified in the Preferences window. The JSON file is named bookmarks_<date>_<time>.json.
+
+I added this feature because my places.sqllite file and the automatic bookmark backups made by Firefox all became corrupted at once. Furthermore, the automatic bookmark backups are stored in .jsonlz4 files, which unlike JSON files, are not human-readable.
+
+Firefox has a setting to back up your bookmarks to an HTML file when you close Firefox (browser.bookmarks.autoExportHTML), but it does not seem to have an equivalent setting to back up to a JSON file. Furthermore, when you restore your bookmarks from an HTML file, the tags do not seem to be included. For this reason, I wanted a way to automatically back up my bookmarks to a JSON file.
+
+*
+
+New in version 0.13:
+
+- Various minor bug fixes.
+- Tab groups with conflicting IDs, titles, or both are now only merged when you do one of the following.
+-- Export multiple session files to HTML files.
+-- Save multiple session files to bookmarks.
+-- Export multiple bookmark folders to a single HTML file.
+-- Merge multiple bookmark folders.
+- "Export Bookmark Folders to HTML Files (one file per folder)" now lets you select multiple bookmark folders, rather than just one.
+- New feature: "Export Bookmark Folders to HTML File (one file for all folders)", which also lets you select multiple bookmark folders.
+- New features: "Merge Bookmark Folders" and "Merge All Bookmark Folders", which let you copy existing bookmark folders into a new folder, removing duplicate tabs and merging duplicate tab groups based on your preferences.
+
+New in version 0.12:
+
+- You can now open the Preferences window from the menu.
+- Added new preferences for exporting multiple session files at the same time or saving them to bookmarks.
+
+New in version 0.11:
+
+- Fixed a bug. If you use Session Exporter to export multiple session files to HTML files, or save them to bookmarks, and the session files come from different sources, there might be conflicting tab group IDs. Previously, Session Exporter did not detect these conflicts. As a result, it assigned tabs to incorrect tab groups because they had the same IDs as the correct tab groups. Now, Session Explorer resolves these conflicts. There is also a new user preference to merge tab groups that have the same ID, if they also have the same name.
+- When you export a session to an HTML file, the main table of contents now contains a link to the Duplicate Tabs section.
+- When you export a session to an HTML file, any duplicate tabs now contain links to the tab group sections that contain the original tabs.
+
+New in version 0.10:
+
+- Fixed a bug. If a tab group had no title, the link for that tab group in the Table of Contents had no text.
+- Fixed a bug. If you used Session Exporter to export bookmarks with missing titles to an HTML file, the links for those bookmarks had no text and could not be clicked. Session Exporter now detects this case and uses the URL of each bookmark as the title.
+- Fixed a bug. If you used Session Exporter to export a bookmark folder to an HTML file, it would use the bookmark folder name as the default file name in the file dialog, without adding the .html extension. As a result, it could overwrite an existing file with the same name on disk without asking permission. This was because the name of the file on disk had the .html extension, but the default file name in the file dialog did not, so comparing them returned a false negative. Session Exporter now adds the .html extension to the default file name to prevent this. 
+- When you export a session and include tab histories, the tab histories are included for duplicate tabs as well as regular tabs.
+- You can now skip duplicate tabs across all tab groups as well as within each tab group (the default behavior).
+- You can export all bookmark folders, either to a single file, or to multiple files (one file for each folder).
+
+New in version 0.9:
+
+- Fixed a bug. Session Exporter could not export a session that contained a tab that had failed to load. This was because the tab did not have a title. Session Exporter now detects this case and exports only the URL of the tab.
+- You can now select multiple sessions to export to a file or to your bookmarks, and the sessions are merged.
+- You can choose to skip duplicate tabs when exporting a single session or multiple sessions. You can choose to log the skipped duplicate tabs to the browser console. If you are exporting to a file, you can export the skipped duplicate tabs to a separate section of the file. If you are exporting to bookmarks, you can save the skipped duplicate tabs to a separate bookmark folder.
+- You can now export the entire history of each tab when exporting to a file. That is, the current URL of the tab is exported, followed by a list of all "next" and "previous" URLs for that tab.
+
+New in version 0.8:
+
+- Fixed a bug in the settings dialog. The browse button for the default output folder did not work until you exported at least one session to a file.
+- Fixed a bug in the select output file dialog. Previously, if Session Exporter did not find the default output folder that was specified in the settings (for example, because it was deleted), it would raise an exception.
+- Added a setting for the default input folder, in case you don't store your sessions in the Firefox sessions folder.
+- After you export a session to a file, Session Exporter automatically opens the file in a new tab.
+
+*
+
