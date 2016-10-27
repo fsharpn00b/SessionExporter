@@ -253,28 +253,35 @@ function get_tabs_from_session_state (session_state, include_tab_history) {
 			var tab_group_id = get_tab_group_id (tab);
 /* tab.entries is not an array, but an object where each entry is a property. */
 			var entries = _.toArray (tab.entries);
-/* tab.index starts from 1. Since we converted tab.entries to an array, we adjust it to be zero-based. */
-			var index = tab.index - 1;
-			if (index < entries.length) {
-				var entry = entries [index];
-/* If the entry has no title, use the URL as the title. The more functional approach would be to create a copy of the entry with the updated title. */
-				if (entry.title === undefined || entry.title == null || entry.title.length == 0) { entry.title = entry.url; }
-				var result = { title : entry.title, url : entry.url, tab_group_id : tab_group_id };
-/* If the user does not want to export the tab history, add an empty history to the result. */
-				if (include_tab_history == false) { result.history = []; }
-				else {
-/* If the user does want to export the tab history, loop through the entries and add the title and URL for each entry to a new history field in the result. */
-					result.history = _.map (entries, function (entry) { return { title : entry.title, url : entry.url }; });
-				}
-                return result;
-			}
-/* If a tab has not been loaded, tab.entries might be blank, but there might be a URL in tab.userTypedValue. */
-            else if (tab.userTypedValue !== undefined && tab.userTypedValue != null && tab.userTypedValue.length > 0) {
+/* If the tab index is undefined... */
+			if (tab.index === undefined) {
 /* In this case there is no title or history, but there should be a tab group ID. */
-                return { title : "", url : tab.userTypedValue, tab_group_id : tab_group_id, history : [] };
-            }
+                return { title : "", url : "", tab_group_id : tab_group_id, history : [] };
+			}
 			else {
-				throw new Error (sprintf ("session_utils.jsm: get_tabs: tab entry index is not valid. index: %d. tab.entries.length: %d. tab: %s.", index, entries.length, JSON.stringify (tab)));
+/* tab.index starts from 1. Since we converted tab.entries to an array, we adjust it to be zero-based. */
+				var index = tab.index - 1;
+				if (index < entries.length) {
+					var entry = entries [index];
+/* If the entry has no title, use the URL as the title. The more functional approach would be to create a copy of the entry with the updated title. */
+					if (entry.title === undefined || entry.title == null || entry.title.length == 0) { entry.title = entry.url; }
+					var result = { title : entry.title, url : entry.url, tab_group_id : tab_group_id };
+/* If the user does not want to export the tab history, add an empty history to the result. */
+					if (include_tab_history == false) { result.history = []; }
+					else {
+/* If the user does want to export the tab history, loop through the entries and add the title and URL for each entry to a new history field in the result. */
+						result.history = _.map (entries, function (entry) { return { title : entry.title, url : entry.url }; });
+					}
+					return result;
+				}
+/* If a tab has not been loaded, tab.entries might be blank, but there might be a URL in tab.userTypedValue. */
+				else if (tab.userTypedValue !== undefined && tab.userTypedValue != null && tab.userTypedValue.length > 0) {
+/* In this case there is no title or history, but there should be a tab group ID. */
+					return { title : "", url : tab.userTypedValue, tab_group_id : tab_group_id, history : [] };
+				}
+				else {
+					throw new Error (sprintf ("session_utils.jsm: get_tabs: tab entry index is not valid. index: %d. tab.entries.length: %d. tab: %s.", index, entries.length, JSON.stringify (tab)));
+				}
 			}
 		});
 	});
@@ -680,17 +687,18 @@ var SessionUtils = {
 
 /* Apply function (1) to the tabs and tab groups in the current session using the session state. (2) True to export the history of each tab. Return unit. */
 	get_current_session_from_session_state : function (action, include_tab_history) {
-		init_tab_view_all_windows (function () {
-			action (get_tabs_and_tab_groups_from_session_state (include_tab_history));
-		});
+		action (get_tabs_and_tab_groups_from_session_state (include_tab_history));
 	},
 
 /* Apply function (1) to the tabs and tab groups in the current session using the browser windows. Return unit. */
+/* This is currently not used. */
+/*
 	get_current_session_from_windows : function (action) {
 		init_tab_view_all_windows (function () {
 			action (get_tabs_and_tab_groups_from_windows ());
 		});
 	},
+*/
 
 /* We do not have to call init_tab_view_all_windows to read session states from files. However, get_tabs_and_tab_groups_from_files uses a promise to open each file, so we apply it to the callback rather than have it return a result. */
 /* Apply function (2) to the tabs and tab groups in the sessions in files (1). (3) True to export the history of each tab. (4) The user preferences related to combining tab groups. Return unit. */
@@ -705,7 +713,10 @@ var SessionUtils = {
 
 /* Note get_tab_data_from_window_internal must be called through init_tab_view_all_windows if get_tab_group_data is true. Currently, this function is called by get_tab_url_and_title and find_url_in_project in commands.jsm. Those functions expect a return value from this function. If we change this function to call init_tab_view_all_windows, we must also change it to take a callback, and change those functions to pass a callback. Since they pass false for get_tab_group_data, we have left this function as is for now. We pass false to get_tab_data_from_window_internal regardless of the value of get_tab_group_data. */
 /* Get data for tab (2) in window (1). If (3) is true, return the tab, title, URL, and tab group ID. If not, return only the tab, title, and URL. */
+/* This is currently not used. */
+/*
 	get_tab_data_from_window : function (window, tab, get_tab_group_data) {
 		return get_tab_data_from_window_internal (window, tab, false);
 	},
+*/
 };
