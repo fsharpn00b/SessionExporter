@@ -61,10 +61,6 @@ It seems document.getElementById can only find either (1) the containing element
 			tooltiptext="Session Exporter"
 		>
 			<menupopup id="SessionExporter_menu">
-<!--
-        <menuitem label="Test" oncommand="SessionExporter.Main.test ();"/>
-        <menuseparator />
--->
 				<menuitem label="Export Session File(s) to HTML File" oncommand="SessionExporter.Main.export_sessions (false);"/>
 				<menuitem label="Export Current Session to HTML File" oncommand="SessionExporter.Main.export_current_session (false);"/>
         <menuseparator />
@@ -89,6 +85,10 @@ https://developer.mozilla.org/en-US/docs/Web/API/Window.openDialog
 https://developer.mozilla.org/en-US/docs/Web/API/window.open
 -->
         <menuitem label="Preferences" oncommand="openDialog (SessionExporter.Consts.content_folder + 'preferences.xul', '', 'centerscreen, chrome, dialog, modal=yes', null).focus();"/>
+<!--
+        <menuseparator />
+        <menuitem label="Test" oncommand="SessionExporter.Main.test ();"/>
+-->
 			</menupopup>
 		</toolbarbutton>
 	</toolbarpalette>
