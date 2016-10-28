@@ -22,7 +22,7 @@ https://developer.mozilla.org/en-US/Add-ons/Install_Manifests
 
 	<Description about="urn:mozilla:install-manifest">
 		<em:id>{943b5589-7808-4a70-acdc-7b6ee21e7cce}</em:id>
-		<em:version>0.16</em:version>
+		<em:version>0.17</em:version>
 		<em:type>2</em:type>
 
 		<em:targetApplication>
@@ -32,7 +32,7 @@ https://developer.mozilla.org/en-US/Add-ons/Install_Manifests
 https://developer.mozilla.org/en-US/docs/Mozilla/JavaScript_code_modules/Promise.jsm
 -->
 				<em:minVersion>25.0</em:minVersion>
-				<em:maxVersion>44.0</em:maxVersion>
+				<em:maxVersion>51.0</em:maxVersion>
 			</Description>
 		</em:targetApplication>
 
